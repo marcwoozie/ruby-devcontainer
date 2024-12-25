@@ -1,5 +1,5 @@
 --dir
-./app
+./src
 --ignore=/tmp/
 --ignore=/vendor/bundle
 --disable-watchman
