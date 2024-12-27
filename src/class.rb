@@ -27,13 +27,16 @@ class Human
   sig { returns(Date) }
   attr_reader :birthday
 
+  sig { override.returns(T.any(Male, Female)) }
+  attr_reader :gender
+
   sig { returns(Voice) }
   attr_reader :voice
 
-  sig { params(name: String, birthday: Date).void }
-  def initialize name:, birthday:
-    @name = name
-    @birthday = birthday
+  def initialize(name:, birthday:, gender:)
+    @name = T.let(name, String)
+    @birthday = T.let(birthday, Date)
+    @gender = T.let(gender, T.any(Male, Female))
   end
 
   sig { params(voice: Voice).void }
@@ -44,11 +47,6 @@ class Human
   sig { override.returns(Integer) }
   def age
     (Date.today.strftime('%Y%m%d').to_i - birthday.strftime('%Y%m%d').to_i) / 10000
-  end
-
-  sig { override.returns(T.any(Male, Female)) }
-  def gender
-    HumanGender::Male.new
   end
 
   sig { params(word: String).void }
