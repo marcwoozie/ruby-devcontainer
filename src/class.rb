@@ -1,6 +1,7 @@
 # typed: true
 require 'sorbet-runtime'
 require 'forwardable'
+require_relative 'interface'
 extend T::Sig
 
 class Voice
