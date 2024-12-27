@@ -27,7 +27,7 @@ class Human
   sig { returns(Date) }
   attr_reader :birthday
 
-  sig { override.returns(T.any(Male, Female)) }
+  sig { override.returns(Gender) }
   attr_reader :gender
 
   sig { returns(Voice) }
@@ -36,7 +36,7 @@ class Human
   def initialize(name:, birthday:, gender:)
     @name = T.let(name, String)
     @birthday = T.let(birthday, Date)
-    @gender = T.let(gender, T.any(Male, Female))
+    @gender = T.let(gender, Gender)
   end
 
   sig { params(voice: Voice).void }
