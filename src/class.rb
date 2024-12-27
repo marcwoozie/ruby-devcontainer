@@ -6,14 +6,6 @@ extend T::Sig
 
 class Voice
   extend T::Sig
-
-  sig { returns(Human) }
-  attr_reader :human
-
-  sig { params(human: Human).void }
-  def set_human human
-    @human = human
-  end
   
   sig { params(word: String).void }
   def say word
@@ -25,29 +17,38 @@ class Human
   extend T::Sig
   extend Forwardable
   include Birthday
+  include HumanGender
 
   delegate :say => :@voice
 
   sig { returns(String) }
   attr_accessor :name
 
+  sig { returns(Date) }
+  attr_reader :birthday
+
   sig { returns(Voice) }
   attr_reader :voice
 
-  sig { params(name: String).void }
-  def initialize name
+  sig { params(name: String, birthday: Date).void }
+  def initialize name:, birthday:
     @name = name
+    @birthday = birthday
   end
 
   sig { params(voice: Voice).void }
   def set_voice voice
-    voice.set_human self
     @voice = voice
   end
 
   sig { override.returns(Integer) }
   def age
-    20
+    (Date.today.strftime('%Y%m%d').to_i - birthday.strftime('%Y%m%d').to_i) / 10000
+  end
+
+  sig { override.returns(T.any(Male, Female)) }
+  def gender
+    HumanGender::Male.new
   end
 
   sig { params(word: String).void }
